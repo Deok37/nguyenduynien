@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getPool } = require('../config/db');
+const { getPool, isDbActive, mockData } = require('../config/db');
 const { authenticateToken } = require('./auth');
 const client = require('prom-client');
 
@@ -16,22 +16,29 @@ const contactMessagesCounter = new client.Counter({
 
 // GET /api/profile (Public)
 router.get('/profile', async (req, res) => {
+  if (!isDbActive()) {
+    return res.json(mockData.profile);
+  }
   try {
     const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM profile ORDER BY id ASC LIMIT 1');
     if (rows.length === 0) {
-      return res.status(404).json({ error: 'Chưa có thông tin profile' });
+      return res.json(mockData.profile);
     }
     res.json(rows[0]);
   } catch (err) {
-    console.error('Error fetching profile:', err);
-    res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+    console.warn('DB query error, fallback to mock profile:', err.message);
+    res.json(mockData.profile);
   }
 });
 
 // PUT /api/profile (Admin only)
 router.put('/profile', authenticateToken, async (req, res) => {
   const { full_name, title, bio, email, phone, location, github_url, linkedin_url, resume_url, avatar_url } = req.body;
+  if (!isDbActive()) {
+    mockData.profile = { ...mockData.profile, ...req.body, updated_at: new Date().toISOString() };
+    return res.json({ message: 'Cập nhật thông tin profile thành công!' });
+  }
   try {
     const pool = await getPool();
     const [existing] = await pool.query('SELECT id FROM profile LIMIT 1');
@@ -62,13 +69,16 @@ router.put('/profile', authenticateToken, async (req, res) => {
 
 // GET /api/projects (Public)
 router.get('/projects', async (req, res) => {
+  if (!isDbActive()) {
+    return res.json(mockData.projects);
+  }
   try {
     const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM projects ORDER BY featured DESC, created_at DESC');
-    res.json(rows);
+    res.json(rows.length > 0 ? rows : mockData.projects);
   } catch (err) {
-    console.error('Error fetching projects:', err);
-    res.status(500).json({ error: 'Lỗi lấy danh sách dự án' });
+    console.warn('DB query error, fallback to mock projects:', err.message);
+    res.json(mockData.projects);
   }
 });
 
@@ -77,6 +87,13 @@ router.post('/projects', authenticateToken, async (req, res) => {
   const { title, description, category, tags, image_url, demo_url, github_url, featured } = req.body;
   if (!title || !description) {
     return res.status(400).json({ error: 'Tiêu đề và mô tả không được để trống' });
+  }
+
+  if (!isDbActive()) {
+    const newId = mockData.projects.length > 0 ? Math.max(...mockData.projects.map(p => p.id)) + 1 : 1;
+    const newProj = { id: newId, title, description, category: category || 'Web', tags: tags || '', image_url: image_url || '', demo_url: demo_url || '', github_url: github_url || '', featured: featured ? 1 : 0 };
+    mockData.projects.unshift(newProj);
+    return res.status(201).json({ message: 'Tạo dự án mới thành công', projectId: newId });
   }
 
   try {
@@ -95,8 +112,16 @@ router.post('/projects', authenticateToken, async (req, res) => {
 
 // PUT /api/projects/:id (Admin only)
 router.put('/projects/:id', authenticateToken, async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
   const { title, description, category, tags, image_url, demo_url, github_url, featured } = req.body;
+
+  if (!isDbActive()) {
+    const idx = mockData.projects.findIndex(p => p.id === id);
+    if (idx !== -1) {
+      mockData.projects[idx] = { ...mockData.projects[idx], title, description, category, tags, image_url, demo_url, github_url, featured: featured ? 1 : 0 };
+    }
+    return res.json({ message: 'Cập nhật dự án thành công' });
+  }
 
   try {
     const pool = await getPool();
@@ -114,7 +139,11 @@ router.put('/projects/:id', authenticateToken, async (req, res) => {
 
 // DELETE /api/projects/:id (Admin only)
 router.delete('/projects/:id', authenticateToken, async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (!isDbActive()) {
+    mockData.projects = mockData.projects.filter(p => p.id !== id);
+    return res.json({ message: 'Đã xóa dự án thành công' });
+  }
   try {
     const pool = await getPool();
     await pool.query('DELETE FROM projects WHERE id = ?', [id]);
@@ -131,13 +160,16 @@ router.delete('/projects/:id', authenticateToken, async (req, res) => {
 
 // GET /api/skills (Public)
 router.get('/skills', async (req, res) => {
+  if (!isDbActive()) {
+    return res.json(mockData.skills);
+  }
   try {
     const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM skills ORDER BY category, proficiency DESC');
-    res.json(rows);
+    res.json(rows.length > 0 ? rows : mockData.skills);
   } catch (err) {
-    console.error('Error fetching skills:', err);
-    res.status(500).json({ error: 'Lỗi lấy danh sách kỹ năng' });
+    console.warn('DB query error, fallback to mock skills:', err.message);
+    res.json(mockData.skills);
   }
 });
 
@@ -146,6 +178,13 @@ router.post('/skills', authenticateToken, async (req, res) => {
   const { name, category, proficiency, icon } = req.body;
   if (!name || !category) {
     return res.status(400).json({ error: 'Tên kỹ năng và phân loại là bắt buộc' });
+  }
+
+  if (!isDbActive()) {
+    const newId = mockData.skills.length > 0 ? Math.max(...mockData.skills.map(s => s.id)) + 1 : 1;
+    const newSkill = { id: newId, name, category, proficiency: parseInt(proficiency || '80', 10), icon: icon || 'code' };
+    mockData.skills.push(newSkill);
+    return res.status(201).json({ message: 'Thêm kỹ năng thành công', skillId: newId });
   }
 
   try {
@@ -163,7 +202,11 @@ router.post('/skills', authenticateToken, async (req, res) => {
 
 // DELETE /api/skills/:id (Admin only)
 router.delete('/skills/:id', authenticateToken, async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (!isDbActive()) {
+    mockData.skills = mockData.skills.filter(s => s.id !== id);
+    return res.json({ message: 'Đã xóa kỹ năng' });
+  }
   try {
     const pool = await getPool();
     await pool.query('DELETE FROM skills WHERE id = ?', [id]);
@@ -186,16 +229,21 @@ router.post('/contact', async (req, res) => {
     return res.status(400).json({ error: 'Vui lòng điền đủ tên, email và nội dung tin nhắn' });
   }
 
+  // Track in Prometheus metric
+  contactMessagesCounter.inc();
+
+  if (!isDbActive()) {
+    const newId = mockData.messages.length + 1;
+    mockData.messages.unshift({ id: newId, name, email, subject: subject || 'Không có tiêu đề', message, is_read: 0, created_at: new Date().toISOString() });
+    return res.status(201).json({ message: 'Cảm ơn bạn! Tin nhắn đã được gửi thành công.' });
+  }
+
   try {
     const pool = await getPool();
     await pool.query(
       'INSERT INTO messages (name, email, subject, message) VALUES (?, ?, ?, ?)',
       [name, email, subject || 'Không có tiêu đề', message]
     );
-
-    // Track in Prometheus metric
-    contactMessagesCounter.inc();
-
     console.log(`[Contact] New message received from: ${name} <${email}>`);
     res.status(201).json({ message: 'Cảm ơn bạn! Tin nhắn đã được gửi thành công.' });
   } catch (err) {
@@ -206,19 +254,26 @@ router.post('/contact', async (req, res) => {
 
 // GET /api/messages (Admin only)
 router.get('/messages', authenticateToken, async (req, res) => {
+  if (!isDbActive()) {
+    return res.json(mockData.messages);
+  }
   try {
     const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM messages ORDER BY created_at DESC');
-    res.json(rows);
+    res.json(rows.length > 0 ? rows : mockData.messages);
   } catch (err) {
-    console.error('Error fetching messages:', err);
-    res.status(500).json({ error: 'Lỗi lấy danh sách tin nhắn' });
+    console.warn('DB query error, fallback to mock messages:', err.message);
+    res.json(mockData.messages);
   }
 });
 
 // DELETE /api/messages/:id (Admin only)
 router.delete('/messages/:id', authenticateToken, async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (!isDbActive()) {
+    mockData.messages = mockData.messages.filter(m => m.id !== id);
+    return res.json({ message: 'Đã xóa tin nhắn thành công' });
+  }
   try {
     const pool = await getPool();
     await pool.query('DELETE FROM messages WHERE id = ?', [id]);
@@ -233,6 +288,17 @@ router.delete('/messages/:id', authenticateToken, async (req, res) => {
 // 5. DASHBOARD STATS API (Admin only)
 // ==========================================
 router.get('/stats', authenticateToken, async (req, res) => {
+  if (!isDbActive()) {
+    return res.json({
+      projectCount: mockData.projects.length,
+      skillCount: mockData.skills.length,
+      messageCount: mockData.messages.length,
+      unreadMessages: mockData.messages.filter(m => !m.is_read).length,
+      systemUptime: process.uptime(),
+      nodeVersion: process.version,
+      memoryUsage: process.memoryUsage()
+    });
+  }
   try {
     const pool = await getPool();
     const [[{ projectCount }]] = await pool.query('SELECT COUNT(*) as projectCount FROM projects');
