@@ -1,0 +1,33 @@
+# ========================================================
+# PROMETHEUS ALERTING RULES
+# ========================================================
+
+groups:
+  - name: portfolio_system_alerts
+    rules:
+      - alert: WebServiceDown
+        expr: up{job="portfolio-web"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Portfolio Web Application is DOWN"
+          description: "Container portfolio-web has been unreachable for more than 15 seconds."
+
+      - alert: DatabaseServiceDown
+        expr: mysql_up == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "MySQL Database is DOWN"
+          description: "MySQL instance has failed healthcheck."
+
+      - alert: HighMemoryUsage
+        expr: container_memory_usage_bytes{name="portfolio-web"} > 250000000
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Memory usage on portfolio-web"
+          description: "Node.js application memory exceeded 250MB."
