@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nguyễn Văn Đức | DevOps & Fullstack Engineer Portfolio</title>
+  <meta name="description" content="Website portfolio cá nhân của Nguyễn Văn Đức - Kỹ sư DevOps & Fullstack. Triển khai kiến trúc Docker, Nginx, Prometheus, Grafana, Loki.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Backgrounds -->
+  <div class="ambient-bg">
+    <div class="glow-circle-1"></div>
+    <div class="glow-circle-2"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <nav class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="gradient-text">&lt;DucShin /&gt;</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#hero">Trang chủ</a></li>
+        <li><a href="#about">Giới thiệu</a></li>
+        <li><a href="#skills">Kỹ năng</a></li>
+        <li><a href="#projects">Dự án</a></li>
+        <li><a href="#contact">Liên hệ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/login" class="btn btn-outline btn-sm" id="btn-admin-login">Quản trị CMS</a>
+        <a href="#contact" class="btn btn-primary btn-sm">Thuê tôi</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-text-content">
+          <div class="hero-status">
+            <span class="status-dot"></span>
+            <span>Sẵn sàng cho các thử thách công nghệ mới</span>
+          </div>
+          
+          <h1 class="hero-title">
+            Xin chào, tôi là <br>
+            <span class="gradient-text" id="hero-name">Nguyễn Văn Đức</span>
+          </h1>
+
+          <p class="hero-subtitle" id="hero-title">DevOps & Fullstack Software Engineer</p>
+
+          <p class="hero-bio" id="hero-bio">
+            Chuyên gia xây dựng hệ thống phân tán chịu tải cao, tự động hóa hạ tầng CI/CD với Docker, 
+            thiết lập hệ thống quan sát toàn diện Prometheus & Grafana, quản trị log tập trung Loki và tối ưu bảo mật đa tầng.
+          </p>
+
+          <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+              Liên hệ hợp tác
+            </a>
+            <a href="#projects" class="btn btn-outline">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+              Xem dự án
+            </a>
+            <a href="/metrics" target="_blank" class="btn btn-outline" style="border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Prometheus Metrics
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-avatar-wrapper">
+          <div class="avatar-ring">
+            <img id="hero-avatar" class="avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Avatar">
+          </div>
+          <div class="floating-badge">
+            <svg width="24" height="24" fill="none" stroke="#6366f1" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <div style="font-weight: 700; font-size: 0.85rem; color: #fff;">Docker & Nginx</div>
+              <div style="font-size: 0.75rem; color: #9ca3af;">Hardened System</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics Strip -->
+    <section class="container">
+      <div class="metrics-strip">
+        <div class="metric-box">
+          <div class="metric-num">04+</div>
+          <div class="metric-label">Năm Kinh Nghiệm</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num" id="stat-project-count">15+</div>
+          <div class="metric-label">Dự Án Hoàn Thành</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num">99.9%</div>
+          <div class="metric-label">Uptime Hệ Thống</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num">100%</div>
+          <div class="metric-label">Khách Hàng Hài Lòng</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Thông tin</span>
+          <h2 class="section-title">Về Bản Thân & Triết Lý Kỹ Thuật</h2>
+          <p class="section-subtitle">Kết hợp giữa nghệ thuật lập trình phần mềm và sự chính xác của quản trị hệ thống hạ tầng đám mây hiện đại.</p>
+        </div>
+
+        <div class="glass-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #a5b4fc;">Sứ mệnh nghề nghiệp</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">
+              Tôi tập trung vào việc kiến tạo những hệ thống phần mềm có tính sẵn sàng cao (High Availability), 
+              dễ mở rộng theo chiều ngang (Horizontal Scaling) và bảo mật theo chiều sâu (Defense in Depth).
+            </p>
+            <p style="color: var(--text-muted);">
+              Mọi container đều được đóng gói theo chuẩn Non-Root, cô lập mạng chặt chẽ, thu thập số liệu metrics theo thời gian thực với Prometheus và kiểm soát log tập trung với Loki.
+            </p>
+          </div>
+          <div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #a5b4fc;">Thông tin liên hệ trực tiếp</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem; color: var(--text-muted);">
+              <div><strong style="color: #fff;">Họ tên:</strong> <span id="about-fullname">Nguyễn Văn Đức</span></div>
+              <div><strong style="color: #fff;">Email:</strong> <span id="about-email">ducshin.dev@gmail.com</span></div>
+              <div><strong style="color: #fff;">Địa điểm:</strong> <span id="about-location">Hà Nội / TP.HCM, Việt Nam</span></div>
+              <div><strong style="color: #fff;">Stack:</strong> Docker, Nginx, Node.js, MySQL, Prometheus, Grafana, Loki</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Năng lực</span>
+          <h2 class="section-title">Kỹ Năng & Công Nghệ Cốt Lõi</h2>
+          <p class="section-subtitle">Các công nghệ nền tảng tôi sử dụng hàng ngày để triển khai và bảo trì các hệ sinh thái phần mềm lớn.</p>
+        </div>
+
+        <div class="skills-grid" id="skills-container">
+          <!-- Dynamic Skills Injected Here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Portfolio</span>
+          <h2 class="section-title">Dự Án Tiêu Biểu</h2>
+          <p class="section-subtitle">Các sản phẩm thực tế đã được triển khai, kiểm thử bảo mật và giám sát hoàn chỉnh.</p>
+        </div>
+
+        <div class="projects-grid" id="projects-container">
+          <!-- Dynamic Projects Injected Here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Kết nối</span>
+          <h2 class="section-title">Gửi Tin Nhắn / Liên Hệ</h2>
+          <p class="section-subtitle">Bạn có dự án hoặc câu hỏi về kiến trúc hệ thống? Hãy để lại lời nhắn, tôi sẽ phản hồi trong 24h.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="glass-card">
+            <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Kênh Trực Tiếp</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Bạn có thể kết nối với tôi qua email hoặc mạng xã hội bên dưới.</p>
+            
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <div class="contact-icon-box">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size: 0.8rem; color: var(--text-dim);">Email</div>
+                  <div id="contact-email" style="font-weight: 500; color: #fff;">ducshin.dev@gmail.com</div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="contact-icon-box">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div>
+                  <div style="font-size: 0.8rem; color: var(--text-dim);">Vị trí</div>
+                  <div id="contact-location" style="font-weight: 500; color: #fff;">Hà Nội, Việt Nam</div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="contact-icon-box">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size: 0.8rem; color: var(--text-dim);">GitHub Profile</div>
+                  <div><a href="https://github.com/ducshin" target="_blank" style="color: #a5b4fc; text-decoration: none;">github.com/ducshin</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <form id="contact-form" class="contact-form">
+              <div id="contact-alert" class="alert-box"></div>
+
+              <div class="form-group">
+                <label class="form-label" for="sender-name">Họ và tên *</label>
+                <input type="text" id="sender-name" class="form-input" placeholder="Ví dụ: Nguyễn Văn A" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="sender-email">Địa chỉ Email *</label>
+                <input type="email" id="sender-email" class="form-input" placeholder="email@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="sender-subject">Chủ đề tin nhắn</label>
+                <input type="text" id="sender-subject" class="form-input" placeholder="Hợp tác dự án / Đánh giá đề tài 13">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="sender-message">Nội dung tin nhắn *</label>
+                <textarea id="sender-message" class="form-textarea" placeholder="Nội dung cần trao đổi..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="btn-send-message">
+                <span>Gửi Tin Nhắn Ngay</span>
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-nav">
+        <a href="#hero">Trang chủ</a>
+        <a href="#about">Giới thiệu</a>
+        <a href="#skills">Kỹ năng</a>
+        <a href="#projects">Dự án</a>
+        <a href="/admin">Trang Quản trị CMS</a>
+        <a href="http://localhost:8080" target="_blank">phpMyAdmin</a>
+        <a href="http://localhost:3001" target="_blank">Grafana</a>
+      </div>
+      <p>© 2024 - 2026 Nguyễn Văn Đức. Môn: Triển khai và Quản trị Hệ thống Phần mềm - Đề tài 13.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #6b7280;">
+        Powered by Docker Compose | Nginx HTTPS Reverse Proxy | Prometheus | Grafana | Loki | MySQL
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

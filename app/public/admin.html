@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Quản Trị CMS | Website Portfolio Cá Nhân</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <span class="gradient-text">&lt;Portfolio /&gt;</span>
+        <span style="font-size: 0.8rem; background: rgba(99, 102, 241, 0.2); padding: 0.2rem 0.5rem; border-radius: 4px; color: #a5b4fc;">CMS</span>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li><a class="sidebar-link active" onclick="switchTab('tab-overview')">📊 Tổng quan hệ thống</a></li>
+        <li><a class="sidebar-link" onclick="switchTab('tab-profile')">👤 Hồ sơ cá nhân</a></li>
+        <li><a class="sidebar-link" onclick="switchTab('tab-projects')">🚀 Quản lý dự án</a></li>
+        <li><a class="sidebar-link" onclick="switchTab('tab-skills')">⚡ Quản lý kỹ năng</a></li>
+        <li><a class="sidebar-link" onclick="switchTab('tab-messages')">📬 Tin nhắn liên hệ</a></li>
+        
+        <li style="margin-top: 1rem; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); padding-left: 1rem;">Công cụ Quản trị</li>
+        <li><a href="http://localhost:8080" target="_blank" class="sidebar-link">🗄️ phpMyAdmin DB</a></li>
+        <li><a href="http://localhost:3001" target="_blank" class="sidebar-link">📈 Grafana Dashboards</a></li>
+        <li><a href="http://localhost:9090" target="_blank" class="sidebar-link">🔥 Prometheus Metrics</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="sidebar-link" style="color: #a5b4fc;">🌐 Xem trang chủ</a>
+        <a onclick="logout()" class="sidebar-link" style="color: #f87171;">🚪 Đăng xuất</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div>
+          <h1 style="font-size: 1.8rem;" id="page-heading">Tổng Quan Hệ Thống</h1>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Hệ thống CMS tích hợp Docker, MySQL và Prometheus</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.4rem 0.8rem; border-radius: var(--radius-full); font-size: 0.8rem; color: #34d399; display: flex; align-items: center; gap: 0.5rem;">
+            <span class="status-dot"></span> System: Healthy
+          </div>
+          <span style="color: #fff; font-weight: 500;" id="admin-username">Admin</span>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW -->
+      <section id="tab-overview" class="admin-tab-content">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header"><span>Tổng số dự án</span> <span>📁</span></div>
+            <div class="stat-value" id="stat-projects">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span>Tổng số kỹ năng</span> <span>💡</span></div>
+            <div class="stat-value" id="stat-skills">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span>Tin nhắn nhận được</span> <span>✉️</span></div>
+            <div class="stat-value" id="stat-messages">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span>Thời gian chạy (Uptime)</span> <span>⏱️</span></div>
+            <div class="stat-value" id="stat-uptime">-</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="margin-top: 2rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Thông tin Trạng thái Container & Hệ thống Quản trị</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+            <div>
+              <p><strong style="color: #fff;">Web App Engine:</strong> Node.js v20 (Non-root container user `node`)</p>
+              <p><strong style="color: #fff;">Cơ sở dữ liệu:</strong> MySQL 8.0 (Internal network: `backend-net`)</p>
+              <p><strong style="color: #fff;">Quản trị DB:</strong> phpMyAdmin (Cổng nội bộ / Reverse Proxy)</p>
+            </div>
+            <div>
+              <p><strong style="color: #fff;">Reverse Proxy:</strong> Nginx 1.25 Alpine (HTTPS tự ký, Security Headers)</p>
+              <p><strong style="color: #fff;">Giám sát Metrics:</strong> Prometheus + Grafana Pre-configured</p>
+              <p><strong style="color: #fff;">Quản trị Log:</strong> Grafana Loki + Promtail LogQL</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: PROFILE -->
+      <section id="tab-profile" class="admin-tab-content" style="display: none;">
+        <div class="glass-card" style="max-width: 800px;">
+          <h2 style="font-size: 1.4rem; margin-bottom: 1.5rem;">Cập nhật Thông tin Cá nhân (Profile)</h2>
+          <form id="form-profile" class="contact-form">
+            <div class="form-group">
+              <label class="form-label">Họ và tên</label>
+              <input type="text" id="prof-fullname" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Chức danh / Chuyên môn</label>
+              <input type="text" id="prof-title" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tiểu sử (Bio ngắn)</label>
+              <textarea id="prof-bio" class="form-textarea" required></textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="prof-email" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Số điện thoại</label>
+                <input type="text" id="prof-phone" class="form-input">
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Địa điểm sinh sống</label>
+                <input type="text" id="prof-location" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Link Ảnh Avatar URL</label>
+                <input type="url" id="prof-avatar" class="form-input">
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">GitHub URL</label>
+                <input type="url" id="prof-github" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="url" id="prof-linkedin" class="form-input">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 1rem; width: fit-content;">
+              Lưu Thay Đổi Profile
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB 3: PROJECTS -->
+      <section id="tab-projects" class="admin-tab-content" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 style="font-size: 1.4rem;">Danh Sách Dự Án Đang Quản Lý</h2>
+          <button class="btn btn-primary btn-sm" onclick="openProjectModal()">+ Thêm Dự Án Mới</button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Hình ảnh</th>
+                <th>Tiêu đề</th>
+                <th>Phân loại</th>
+                <th>Thẻ Tags</th>
+                <th>Nổi bật</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="projects-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 4: SKILLS -->
+      <section id="tab-skills" class="admin-tab-content" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 style="font-size: 1.4rem;">Danh Sách Kỹ Năng Kỹ Thuật</h2>
+          <button class="btn btn-primary btn-sm" onclick="openSkillModal()">+ Thêm Kỹ Năng Mới</button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên Kỹ Năng</th>
+                <th>Phân Loại</th>
+                <th>Độ Thành Thạo</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="skills-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 5: MESSAGES -->
+      <section id="tab-messages" class="admin-tab-content" style="display: none;">
+        <h2 style="font-size: 1.4rem; margin-bottom: 1rem;">Hộp Thư Liên Hệ Từ Khách Thăm Quan</h2>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Người gửi</th>
+                <th>Email</th>
+                <th>Chủ đề</th>
+                <th>Nội dung</th>
+                <th>Thời gian</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="messages-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- PROJECT MODAL -->
+  <div class="modal-overlay" id="project-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-project-title">Thêm Dự Án Mới</h3>
+        <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+      </div>
+      <form id="form-project-modal" class="contact-form">
+        <input type="hidden" id="proj-id">
+        <div class="form-group">
+          <label class="form-label">Tiêu đề dự án *</label>
+          <input type="text" id="proj-title" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mô tả ngắn gọn *</label>
+          <textarea id="proj-desc" class="form-textarea" required></textarea>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Phân loại</label>
+            <select id="proj-category" class="form-input" style="background: #1f2937;">
+              <option value="DevOps">DevOps</option>
+              <option value="Web">Web Application</option>
+              <option value="Cloud">Cloud & Infra</option>
+              <option value="Mobile">Mobile</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Thẻ Tags (cách nhau bằng dấu phẩy)</label>
+            <input type="text" id="proj-tags" class="form-input" placeholder="Docker, Nginx, Node.js">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Link Hình ảnh (Image URL)</label>
+          <input type="url" id="proj-image" class="form-input" placeholder="https://images.unsplash.com/...">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Demo URL</label>
+            <input type="url" id="proj-demo" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">GitHub Repository URL</label>
+            <input type="url" id="proj-github" class="form-input">
+          </div>
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem; flex-direction: row; margin-top: 0.5rem;">
+          <input type="checkbox" id="proj-featured" style="width: 18px; height: 18px;">
+          <label for="proj-featured" class="form-label" style="cursor: pointer;">Đánh dấu là dự án nổi bật (Featured)</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Lưu Dự Án</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SKILL MODAL -->
+  <div class="modal-overlay" id="skill-modal">
+    <div class="modal-content" style="max-width: 450px;">
+      <div class="modal-header">
+        <h3>Thêm Kỹ Năng Mới</h3>
+        <button class="modal-close" onclick="closeSkillModal()">&times;</button>
+      </div>
+      <form id="form-skill-modal" class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Tên Kỹ Năng *</label>
+          <input type="text" id="skill-name-input" class="form-input" placeholder="Ví dụ: Kubernetes, Redis" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phân Loại *</label>
+          <select id="skill-category-input" class="form-input" style="background: #1f2937;">
+            <option value="DevOps">DevOps & Cloud</option>
+            <option value="Backend">Backend Development</option>
+            <option value="Frontend">Frontend Development</option>
+            <option value="Database">Database Management</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mức độ thành thạo (0 - 100%)</label>
+          <input type="number" id="skill-proficiency-input" class="form-input" min="10" max="100" value="85" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Thêm Kỹ Năng</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

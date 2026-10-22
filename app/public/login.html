@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Nhập Quản Trị CMS | Portfolio System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+    }
+    .login-brand {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-title {
+      font-size: 1.8rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .hint-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px dashed rgba(99, 102, 241, 0.3);
+      font-size: 0.85rem;
+      color: #c7d2fe;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg">
+    <div class="glow-circle-1"></div>
+    <div class="glow-circle-2"></div>
+  </div>
+
+  <div class="login-container">
+    <div class="glass-card login-card">
+      <div class="login-brand">
+        <a href="/" style="text-decoration: none;">
+          <span class="gradient-text" style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;">
+            &lt;DucShin Admin /&gt;
+          </span>
+        </a>
+        <h2 class="login-title">Hệ Thống Quản Trị CMS</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Đăng nhập để cập nhật hồ sơ, kỹ năng & dự án</p>
+      </div>
+
+      <div id="login-alert" class="alert-box" style="margin-bottom: 1.2rem;"></div>
+
+      <form id="login-form">
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label class="form-label" for="username">Tên đăng nhập</label>
+          <input type="text" id="username" class="form-input" placeholder="admin" required value="admin">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" for="password">Mật khẩu bảo mật</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••••••" required value="Admin@Secure2024!">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-login" style="width: 100%;">
+          <span>Đăng Nhập CMS</span>
+        </button>
+      </form>
+
+      <div class="hint-box">
+        <strong>Tài khoản mặc định chấm bài (Demo):</strong><br>
+        Tên đăng nhập: <code>admin</code><br>
+        Mật khẩu: <code>Admin@Secure2024!</code>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="/" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none;">
+          ← Quay về trang chủ Portfolio
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const alertBox = document.getElementById('login-alert');
+      const btn = document.getElementById('btn-login');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>Đang xác thực...</span>';
+      alertBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Đăng nhập không thành công');
+
+        localStorage.setItem('portfolio_token', data.token);
+        localStorage.setItem('portfolio_user', JSON.stringify(data.user));
+
+        alertBox.className = 'alert-box alert-success';
+        alertBox.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
+        alertBox.style.display = 'block';
+
+        setTimeout(() => {
+          window.location.href = '/admin';
+        }, 800);
+      } catch (err) {
+        alertBox.className = 'alert-box alert-error';
+        alertBox.textContent = err.message;
+        alertBox.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = '<span>Đăng Nhập CMS</span>';
+      }
+    });
+  </script>
+</body>
+</html>
