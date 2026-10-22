@@ -1,0 +1,309 @@
+# ========================================================
+# DOCKER COMPOSE ORCHESTRATION
+# Môn: Triển khai và Quản trị Hệ thống Phần mềm
+# Đề tài 13: Website Portfolio / Giới thiệu Cá nhân
+# ========================================================
+
+services:
+
+  # ------------------------------------------------------
+  # 1. WEB APPLICATION (Portfolio + Admin CMS)
+  # ------------------------------------------------------
+  portfolio-web:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: portfolio-web
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=portfolio_user
+      - DB_PASSWORD=${DB_PASSWORD:-PortfolioUser@2024SecurePass}
+      - DB_NAME=portfolio_db
+      - JWT_SECRET=${JWT_SECRET:-super_secret_jwt_portfolio_key_2024_secure}
+    networks:
+      - frontend-net
+      - backend-net
+      - monitoring-net
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 300M
+    security_opt:
+      - no-new-privileges:true
+
+  # ------------------------------------------------------
+  # 2. DATABASE: MySQL 8.0 (Hardened, Network Isolated)
+  # ------------------------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: portfolio-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-RootSecurePass@2024!}
+      MYSQL_DATABASE: portfolio_db
+      MYSQL_USER: portfolio_user
+      MYSQL_PASSWORD: ${DB_PASSWORD:-PortfolioUser@2024SecurePass}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    # HARDENING: DB is on backend-net ONLY, NOT exposed to host machine
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 600M
+    security_opt:
+      - no-new-privileges:true
+
+  # ------------------------------------------------------
+  # 3. DATABASE MANAGEMENT TOOL: phpMyAdmin
+  # ------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    container_name: portfolio-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8080:80"
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 200M
+
+  # ------------------------------------------------------
+  # 4. REVERSE PROXY & SSL TERMINATION: Nginx
+  # ------------------------------------------------------
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: portfolio-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx_logs:/var/log/nginx
+    networks:
+      - frontend-net
+      - monitoring-net
+    depends_on:
+      - portfolio-web
+      - phpmyadmin
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 150M
+    security_opt:
+      - no-new-privileges:true
+
+  # ------------------------------------------------------
+  # 5. MONITORING: Prometheus
+  # ------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: portfolio-prometheus
+    restart: unless-stopped
+    user: "65534:65534" # nobody:nogroup (non-root)
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules.yml:/etc/prometheus/rules.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring-net
+      - frontend-net
+      - backend-net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+
+  # ------------------------------------------------------
+  # 6. DASHBOARDS: Grafana
+  # ------------------------------------------------------
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: portfolio-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-GrafanaAdmin@2024Secure!}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3001/
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring-net
+      - frontend-net
+    depends_on:
+      - prometheus
+      - loki
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 250M
+
+  # ------------------------------------------------------
+  # 7. EXPORTER: cAdvisor (Container Resource Metrics)
+  # ------------------------------------------------------
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: portfolio-cadvisor
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8081:8080"
+    networks:
+      - monitoring-net
+
+  # ------------------------------------------------------
+  # 8. EXPORTER: mysqld-exporter (MySQL Database Metrics)
+  # ------------------------------------------------------
+  mysqld-exporter:
+    image: prom/mysqld-exporter:v0.15.1
+    container_name: portfolio-mysqld-exporter
+    restart: unless-stopped
+    environment:
+      - DATA_SOURCE_NAME=exporter:ExporterSecurePass2024!@(db:3306)/
+    networks:
+      - backend-net
+      - monitoring-net
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ------------------------------------------------------
+  # 9. EXPORTER: nginx-prometheus-exporter
+  # ------------------------------------------------------
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    container_name: portfolio-nginx-exporter
+    restart: unless-stopped
+    command:
+      - -nginx.scrape-uri=http://nginx:80/stub_status
+    networks:
+      - frontend-net
+      - monitoring-net
+    depends_on:
+      - nginx
+
+  # ------------------------------------------------------
+  # 10. LOGGING: Grafana Loki
+  # ------------------------------------------------------
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: portfolio-loki
+    restart: unless-stopped
+    user: "10001:10001" # non-root
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring-net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+
+  # ------------------------------------------------------
+  # 11. LOG SHIPPING: Promtail
+  # ------------------------------------------------------
+  promtail:
+    image: grafana/promtail:3.0.0
+    container_name: portfolio-promtail
+    restart: unless-stopped
+    volumes:
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml:ro
+      - nginx_logs:/var/log/nginx:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - monitoring-net
+    depends_on:
+      - loki
+      - nginx
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 150M
+
+# ========================================================
+# NETWORK DEFINITIONS (HARDENING: STRICT ISOLATION)
+# ========================================================
+networks:
+  frontend-net:
+    driver: bridge
+    name: portfolio_frontend_net
+  backend-net:
+    driver: bridge
+    name: portfolio_backend_net
+    internal: true # ISOLATED: Database cannot access outer internet
+  monitoring-net:
+    driver: bridge
+    name: portfolio_monitoring_net
+
+# ========================================================
+# PERSISTENT VOLUMES
+# ========================================================
+volumes:
+  mysql_data:
+    name: portfolio_mysql_data
+  prometheus_data:
+    name: portfolio_prometheus_data
+  grafana_data:
+    name: portfolio_grafana_data
+  loki_data:
+    name: portfolio_loki_data
+  nginx_logs:
+    name: portfolio_nginx_logs
