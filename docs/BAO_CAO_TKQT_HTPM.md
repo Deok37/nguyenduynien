@@ -5,7 +5,8 @@
 <div align="center">
 
 ### BỘ GIÁO DỤC VÀ ĐÀO TẠO
-### TRƯỜNG ĐẠI HỌC CÔNG NGHỆ / HỌC VIỆN CÔNG NGHỆ THÔNG TIN
+### ĐẠI HỌC THÁI NGUYÊN
+### TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG
 ### KHOA CÔNG NGHỆ THÔNG TIN
 ---
 <br><br>
@@ -31,7 +32,7 @@
   </tr>
   <tr>
     <td style="padding: 6px 15px;"><strong>Mã số sinh viên (MSSV):</strong></td>
-    <td style="padding: 6px 15px;"><strong>B21DCCN001</strong> *(Sinh viên điền đúng MSSV)*</td>
+    <td style="padding: 6px 15px;"><strong>DTC245200301</strong></td>
   </tr>
   <tr>
     <td style="padding: 6px 15px;"><strong>Lớp / Khóa:</strong></td>
@@ -44,7 +45,7 @@
 </table>
 
 <br><br><br>
-**HÀ NỘI, THÁNG 10 NĂM 2026**
+**THÁI NGUYÊN, THÁNG 10 NĂM 2026**
 
 </div>
 
@@ -472,6 +473,7 @@ Sau quá trình triển khai nghiêm túc, đề tài đã giải quyết trọn
 
 ---
 <div align="center">
+<em>Thái Nguyên, ngày 23 tháng 10 năm 2026</em><br><br>
 <strong>NGƯỜI LẬP BÁO CÁO</strong><br><br><br>
 <strong>Nguyễn Hữu Đức</strong>
 </div>

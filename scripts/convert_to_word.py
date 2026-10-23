@@ -225,7 +225,7 @@ def create_document():
     r1.font.size = Pt(13)
     r1.bold = True
     
-    r2 = p_inst.add_run("TRƯỜNG ĐẠI HỌC CÔNG NGHỆ / HỌC VIỆN CÔNG NGHỆ THÔNG TIN\n")
+    r2 = p_inst.add_run("ĐẠI HỌC THÁI NGUYÊN\nTRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG\n")
     r2.font.name = "Times New Roman"
     r2.font.size = Pt(13.5)
     r2.bold = True
@@ -301,7 +301,7 @@ def create_document():
     info_data = [
         ("Giảng viên hướng dẫn:", "ThS. / TS. Giảng viên phụ trách môn học"),
         ("Sinh viên thực hiện:", "Nguyễn Hữu Đức"),
-        ("Mã số sinh viên (MSSV):", "B21DCCN001"),
+        ("Mã số sinh viên (MSSV):", "DTC245200301"),
         ("Lớp / Khóa:", "K23 - TKQT HTPM"),
         ("Học kỳ / Năm học:", "Học kỳ 1 - Năm học 2026")
     ]
@@ -342,7 +342,7 @@ def create_document():
     p_bot.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_bot.paragraph_format.space_before = Pt(10)
     p_bot.paragraph_format.space_after = Pt(0)
-    r_bot = p_bot.add_run("HÀ NỘI, THÁNG 10 NĂM 2026")
+    r_bot = p_bot.add_run("THÁI NGUYÊN, THÁNG 10 NĂM 2026")
     r_bot.font.name = "Times New Roman"
     r_bot.font.size = Pt(12)
     r_bot.bold = True
@@ -654,7 +654,7 @@ def add_signoff_section(doc):
     p1.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p1.paragraph_format.line_spacing = 1.2
     
-    r_loc = p1.add_run("Hà Nội, ngày 23 tháng 10 năm 2026\n")
+    r_loc = p1.add_run("Thái Nguyên, ngày 23 tháng 10 năm 2026\n")
     r_loc.font.name = "Times New Roman"
     r_loc.font.size = Pt(12)
     r_loc.font.italic = True
