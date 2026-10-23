@@ -7,6 +7,9 @@
 CREATE DATABASE IF NOT EXISTS portfolio_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE portfolio_db;
 
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
 -- 1. Table: profile
 CREATE TABLE IF NOT EXISTS profile (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,8 +86,8 @@ VALUES (
     'Kỹ sư phần mềm đam mê kiến trúc hệ thống phân tán, containerization (Docker, Kubernetes), CI/CD tự động hóa, giải pháp giám sát quan sát (Prometheus, Grafana, Loki) và phát triển ứng dụng web an toàn, hiệu năng cao.',
     'ducshin.dev@gmail.com',
     '+84 987 654 321',
-    'Hà Nội / TP. Hồ Chí Minh, Việt Nam',
-    'https://github.com/ducshin',
+    'Kha Sơn, Phú Bình, Thái Nguyên',
+    'https://github.com/Deok37',
     'https://linkedin.com/in/ducshin',
     '#resume',
     'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'

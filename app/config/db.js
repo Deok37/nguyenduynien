@@ -9,7 +9,8 @@ const dbConfig = {
   database: process.env.DB_NAME || 'portfolio_db',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  charset: 'utf8mb4'
 };
 
 let pool;
@@ -24,8 +25,8 @@ const mockData = {
     bio: 'Kỹ sư phần mềm đam mê kiến trúc hệ thống phân tán, containerization (Docker, Kubernetes), CI/CD tự động hóa, giải pháp quan sát toàn diện (Prometheus, Grafana, Loki) và phát triển ứng dụng web an toàn, hiệu năng cao.',
     email: 'ducshin.dev@gmail.com',
     phone: '+84 987 654 321',
-    location: 'Hà Nội / TP. Hồ Chí Minh, Việt Nam',
-    github_url: 'https://github.com/ducshin',
+    location: 'Kha Sơn, Phú Bình, Thái Nguyên',
+    github_url: 'https://github.com/Deok37',
     linkedin_url: 'https://linkedin.com/in/ducshin',
     resume_url: '#resume',
     avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
