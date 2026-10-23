@@ -1,6 +1,6 @@
 # ĐỀ TÀI 13: WEBSITE PORTFOLIO / GIỚI THIỆU CÁ NHÂN CÓ TRANG ADMIN QUẢN LÝ NỘI DUNG
 **Môn học:** Triển khai và Quản trị Hệ thống Phần mềm (TKQT HTPM)  
-**Sinh viên thực hiện:** Nguyễn Văn Đức  
+**Sinh viên thực hiện:** Nguyễn Hữu Đức  
 **Mã số sinh viên (MSSV):** B21DCCN001  
 **Lớp:** K23 - TKQT HTPM  
 

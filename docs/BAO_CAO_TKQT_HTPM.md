@@ -27,7 +27,7 @@
   </tr>
   <tr>
     <td style="padding: 6px 15px;"><strong>Sinh viên thực hiện:</strong></td>
-    <td style="padding: 6px 15px;"><strong>Nguyễn Văn Đức</strong></td>
+    <td style="padding: 6px 15px;"><strong>Nguyễn Hữu Đức</strong></td>
   </tr>
   <tr>
     <td style="padding: 6px 15px;"><strong>Mã số sinh viên (MSSV):</strong></td>
@@ -473,5 +473,5 @@ Sau quá trình triển khai nghiêm túc, đề tài đã giải quyết trọn
 ---
 <div align="center">
 <strong>NGƯỜI LẬP BÁO CÁO</strong><br><br><br>
-<strong>Nguyễn Văn Đức</strong>
+<strong>Nguyễn Hữu Đức</strong>
 </div>

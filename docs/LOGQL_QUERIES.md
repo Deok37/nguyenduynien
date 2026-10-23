@@ -1,7 +1,7 @@
 # HƯỚNG DẪN TRUY VẤN NHẬT KÝ VỚI LOGQL (LOKI + PROMTAIL)
 **Môn học:** Triển khai và Quản trị Hệ thống Phần mềm  
 **Đề tài 13:** Website Portfolio / Giới thiệu Cá nhân có Admin CMS  
-**Sinh viên thực hiện:** Nguyễn Văn Đức  
+**Sinh viên thực hiện:** Nguyễn Hữu Đức  
 
 ---
 

@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS admins (
 INSERT INTO profile (id, full_name, title, bio, email, phone, location, github_url, linkedin_url, resume_url, avatar_url)
 VALUES (
     1,
-    'Nguyễn Văn Đức',
+    'Nguyễn Hữu Đức',
     'DevOps & Fullstack Software Engineer',
     'Kỹ sư phần mềm đam mê kiến trúc hệ thống phân tán, containerization (Docker, Kubernetes), CI/CD tự động hóa, giải pháp giám sát quan sát (Prometheus, Grafana, Loki) và phát triển ứng dụng web an toàn, hiệu năng cao.',
     'ducshin.dev@gmail.com',
