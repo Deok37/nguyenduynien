@@ -46,8 +46,8 @@ echo ========================================================
 git log --oneline --graph -n 3
 
 echo.
-echo De day len GitHub cua ban (ten theo MSSV):
-echo   git remote add origin https://github.com/<MSSV>/portfolio-system.git
+echo De day len GitHub:
+echo   git remote add origin https://github.com/Deok37/nguyenduynien.git
 echo   git push -u origin main
 echo ========================================================
 pause

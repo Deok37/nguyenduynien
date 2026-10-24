@@ -441,6 +441,8 @@ Tuân thủ nghiêm ngặt yêu cầu mục 6 của đề bài, hệ thống đ�
 
 # CHƯƠNG 9: QUẢN LÝ MÃ NGUỒN TRÊN GITHUB VỚI 03 COMMITS
 
+- **Kho lưu trữ GitHub (Repository):** [https://github.com/Deok37/nguyenduynien](https://github.com/Deok37/nguyenduynien)
+
 Tuân thủ đúng hướng dẫn trong đề tài, mã nguồn được tổ chức và cam kết theo đúng tiến trình 03 commits có ý nghĩa kỹ thuật:
 
 ```

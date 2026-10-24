@@ -5,6 +5,9 @@
 **Mã số sinh viên (MSSV):** DTC245200301  
 **Lớp:** K23 - TKQT HTPM  
 **Địa chỉ:** Kha Sơn, Phú Bình, Thái Nguyên  
+**GitHub Repository:** [https://github.com/Deok37/nguyenduynien](https://github.com/Deok37/nguyenduynien)  
+
+[![GitHub Repo](https://img.shields.io/badge/GitHub-nguyenduynien-181717?logo=github)](https://github.com/Deok37/nguyenduynien)
 
 [![Docker Compose](https://img.shields.io/badge/Docker_Compose-v2-blue?logo=docker)](docker-compose.yml)
 [![Nginx](https://img.shields.io/badge/Reverse_Proxy-Nginx_1.25_Alpine-009639?logo=nginx)](nginx/nginx.conf)
