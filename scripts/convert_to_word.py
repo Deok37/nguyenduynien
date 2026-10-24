@@ -300,7 +300,7 @@ def create_document():
     info_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     info_data = [
         ("Giảng viên hướng dẫn:", "ThS. / TS. Giảng viên phụ trách môn học"),
-        ("Sinh viên thực hiện:", "Nguyễn Hữu Đức"),
+        ("Sinh viên thực hiện:", "Nguyễn Duy Niên"),
         ("Mã số sinh viên (MSSV):", "DTC245200301"),
         ("Lớp / Khóa:", "K23 - TKQT HTPM"),
         ("Học kỳ / Năm học:", "Học kỳ 1 - Năm học 2026")
@@ -669,7 +669,7 @@ def add_signoff_section(doc):
     r_note.font.size = Pt(11)
     r_note.font.italic = True
     
-    r_name = p1.add_run("Nguyễn Hữu Đức")
+    r_name = p1.add_run("Nguyễn Duy Niên")
     r_name.font.name = "Times New Roman"
     r_name.font.size = Pt(13.5)
     r_name.bold = True

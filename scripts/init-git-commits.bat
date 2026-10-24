@@ -15,7 +15,7 @@ if not exist ".git" (
 )
 
 echo [*] Cau hinh thong tin tac gia Git...
-git config user.name "Nguyen Van Duc"
+git config user.name "Nguyen Duy Nien"
 git config user.email "ducshin.dev@gmail.com"
 
 echo.

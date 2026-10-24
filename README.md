@@ -1,7 +1,7 @@
 # ĐỀ TÀI 13: WEBSITE PORTFOLIO / GIỚI THIỆU CÁ NHÂN CÓ TRANG ADMIN QUẢN LÝ NỘI DUNG
 **Môn học:** Triển khai và Quản trị Hệ thống Phần mềm (TKQT HTPM)  
 **Trường:** Đại học Công nghệ Thông tin & Truyền thông - Đại học Thái Nguyên (ICTU)  
-**Sinh viên thực hiện:** Nguyễn Hữu Đức  
+**Sinh viên thực hiện:** Nguyễn Duy Niên  
 **Mã số sinh viên (MSSV):** DTC245200301  
 **Lớp:** K23 - TKQT HTPM  
 **Địa chỉ:** Kha Sơn, Phú Bình, Thái Nguyên  

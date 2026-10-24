@@ -1,7 +1,7 @@
 # BÁO CÁO CÁC BIỆN PHÁP HARDENING & BẢO MẬT HỆ THỐNG
 **Môn học:** Triển khai và Quản trị Hệ thống Phần mềm  
 **Đề tài 13:** Website Portfolio / Giới thiệu Cá nhân có Admin CMS  
-**Sinh viên thực hiện:** Nguyễn Hữu Đức  
+**Sinh viên thực hiện:** Nguyễn Duy Niên  
 
 ---
 

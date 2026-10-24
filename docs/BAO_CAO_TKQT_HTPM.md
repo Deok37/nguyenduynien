@@ -28,7 +28,7 @@
   </tr>
   <tr>
     <td style="padding: 6px 15px;"><strong>Sinh viên thực hiện:</strong></td>
-    <td style="padding: 6px 15px;"><strong>Nguyễn Hữu Đức</strong></td>
+    <td style="padding: 6px 15px;"><strong>Nguyễn Duy Niên</strong></td>
   </tr>
   <tr>
     <td style="padding: 6px 15px;"><strong>Mã số sinh viên (MSSV):</strong></td>
@@ -475,5 +475,5 @@ Sau quá trình triển khai nghiêm túc, đề tài đã giải quyết trọn
 <div align="center">
 <em>Thái Nguyên, ngày 23 tháng 10 năm 2026</em><br><br>
 <strong>NGƯỜI LẬP BÁO CÁO</strong><br><br><br>
-<strong>Nguyễn Hữu Đức</strong>
+<strong>Nguyễn Duy Niên</strong>
 </div>

@@ -20,7 +20,7 @@ let isConnected = false;
 const mockData = {
   profile: {
     id: 1,
-    full_name: 'Nguyễn Hữu Đức',
+    full_name: 'Nguyễn Duy Niên',
     title: 'DevOps & Fullstack Software Engineer',
     bio: 'Kỹ sư phần mềm đam mê kiến trúc hệ thống phân tán, containerization (Docker, Kubernetes), CI/CD tự động hóa, giải pháp quan sát toàn diện (Prometheus, Grafana, Loki) và phát triển ứng dụng web an toàn, hiệu năng cao.',
     email: 'ducshin.dev@gmail.com',

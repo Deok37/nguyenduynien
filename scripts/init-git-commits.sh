@@ -15,7 +15,7 @@ if [ ! -d ".git" ]; then
     git branch -M main
 fi
 
-git config user.name "Nguyen Van Duc"
+git config user.name "Nguyen Duy Nien"
 git config user.email "ducshin.dev@gmail.com"
 
 echo ""
